@@ -1,7 +1,7 @@
 :root {
-  --blackColor: #000;
-  --whiteColor: #fff;
-  --grayColor: #eee;
+  --colorBlack: #000;
+  --colorWhite: #fff;
+  --colorGray: #eee;
 }
 
 * {
@@ -12,15 +12,23 @@
   border: 0;
   text-decoration: none;
   list-style: none;
-}
 
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
+  &,
+  &::after,
+  &::before {
+    box-sizing: border-box;
+  }
 }
 
 html,
 body {
   overscroll-behavior: none;
+  font-family: "Open Sans", sans-serif;
+}
+
+.container {
+  max-width: 1330px;
+  padding: 0 15px;
+  margin: 0 auto;
+  margin-top: 15px;
 }

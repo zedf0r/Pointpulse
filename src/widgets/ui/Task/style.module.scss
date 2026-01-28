@@ -1,0 +1,15 @@
+.task {
+  padding: 15px 10px;
+  border: 1px solid var(--colorBlack);
+  display: grid;
+  align-items: center;
+  grid-template-columns: 30px 0.5fr 0.5fr 150px;
+  column-gap: 30px;
+  border-radius: 8px;
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
