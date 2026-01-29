@@ -1,23 +1,48 @@
-import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
+import { base } from "@dubium/eslint-config/base";
+import { typescript } from "@dubium/eslint-config/typescript";
+import { react } from "@dubium/eslint-config/react";
 import globals from "globals";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
-import tseslint from "typescript-eslint";
-import { defineConfig, globalIgnores } from "eslint/config";
+import prettier from "eslint-config-prettier";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+
+const enhancedTypescript = {
+  ...typescript,
+  languageOptions: {
+    ...typescript.languageOptions,
+    parserOptions: {
+      ...(typescript.languageOptions?.parserOptions || {}),
+      project: "./tsconfig.json",
+      tsconfigRootDir: process.cwd(),
+      EXPERIMENTAL_useProjectService: true,
+    },
+  },
+};
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  base,
+  enhancedTypescript,
+  react,
   {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    plugins: {
+      prettier: eslintPluginPrettier,
+    },
+    rules: {
+      "prettier/prettier": "error",
+    },
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+  },
+  prettier,
+  {
+    files: ["**/*.schema.ts"],
+    rules: {
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
     },
   },
 ]);

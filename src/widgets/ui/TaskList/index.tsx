@@ -1,24 +1,20 @@
 import style from "./style.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { tasksApi } from "@/features/api/tasksApi";
+import { fetchTasks } from "@/entities/task/api/taskApi";
 import { Task } from "@/widgets/ui/Task";
+import type { TypeTask } from "@/entities/task/model/types";
 
-type TypeTaskProps = {
-  index: number;
-  id: string;
-  title: string;
-  description: string;
-};
-
-export const Tasks = () => {
-  const { data, isLoading } = useQuery<TypeTaskProps[]>({
+export const TaskList = () => {
+  const { data, isLoading } = useQuery<TypeTask[]>({
     queryKey: ["tasks"],
-    queryFn: tasksApi,
+    queryFn: fetchTasks,
   });
 
   if (isLoading) {
     return "Загрузка";
   }
+
+  data?.sort((a, b) => a.index - b.index);
 
   return (
     <div className={style.tasks}>

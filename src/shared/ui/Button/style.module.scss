@@ -1,14 +1,29 @@
 .button {
-  background-color: var(--colorBlack);
-  color: var(--colorWhite);
   padding: 7px 15px;
   border-radius: 8px;
   transition: 0.4s ease;
   border: 1px solid var(--colorBlack);
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.primary {
+  background-color: var(--colorBlack);
+  color: var(--colorWhite);
 
   &:hover {
     background-color: var(--colorWhite);
     color: var(--colorBlack);
+  }
+}
+
+.secondary {
+  background-color: var(--colorWhite);
+  color: var(--colorBlack);
+
+  &:hover {
+    background-color: var(--colorBlack);
+    color: var(--colorWhite);
   }
 }

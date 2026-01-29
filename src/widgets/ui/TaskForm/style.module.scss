@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+
+  .form__input_box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+    font-size: 18px;
+
+    .input {
+      border: 1px solid var(--colorBlack);
+      padding: 10px 5px;
+      border-radius: 6px;
+    }
+
+    .textarea {
+      border: 1px solid var(--colorBlack);
+      padding: 10px 5px;
+      border-radius: 6px;
+      resize: vertical;
+      min-height: 100px;
+      max-height: 300px;
+    }
+  }
+}
