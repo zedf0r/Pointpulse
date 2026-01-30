@@ -12,6 +12,6 @@
 
 - **Frontend**: React 19, TypeScript
 - **Роутинг**: React Router DOM v6
-- **Стили**: SCSS
+- **Стили**: SCSS Modules
 - **API**: Tanstack Query, json-server (Mockoon)
 - **Бандлер**: Vite
