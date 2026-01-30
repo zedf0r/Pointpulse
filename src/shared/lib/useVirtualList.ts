@@ -34,6 +34,7 @@ export const useVirtualList = ({
 
   const onScroll = useCallback(() => {
     const scroll = containerRef.current?.scrollTop || 0;
+    sessionStorage.setItem("taskListScroll", String(scroll));
     setScrollTop(scroll);
   }, [sortedData.length]);
 
@@ -44,6 +45,17 @@ export const useVirtualList = ({
       return () => container.removeEventListener("scroll", onScroll);
     }
   }, [onScroll]);
+
+  useEffect(() => {
+    if (!sortedData.length) return;
+
+    const savedScroll = sessionStorage.getItem("taskListScroll");
+
+    if (savedScroll && containerRef.current) {
+      containerRef.current.scrollTop = Number(savedScroll);
+      setScrollTop(Number(savedScroll));
+    }
+  }, [sortedData.length]);
 
   return {
     containerRef,
