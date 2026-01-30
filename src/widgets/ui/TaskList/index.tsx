@@ -14,12 +14,11 @@ export const TaskList = () => {
     queryFn: fetchTasks,
   });
 
-  const { visibleItems, containerRef, startIndex, totalHeight } =
-    useVirtualList({
-      data: data ? data : [],
-      containerHeight,
-      itemHeight,
-    });
+  const { visibleItems, containerRef, startIndex } = useVirtualList({
+    data: data ? data : [],
+    containerHeight,
+    itemHeight,
+  });
 
   if (isLoading) {
     return "Загрузка";
@@ -37,7 +36,7 @@ export const TaskList = () => {
     >
       <div
         className={style.tasks}
-        style={{ position: "relative", width: "100%", height: totalHeight }}
+        style={{ position: "relative", width: "100%" }}
       >
         {visibleItems?.map((task, index) => {
           return (
