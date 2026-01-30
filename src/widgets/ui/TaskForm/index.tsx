@@ -36,7 +36,7 @@ export const TaskForm = ({
 
       <div className={style.form__input_box}>
         <label className={style.label} htmlFor="title">
-          Title
+          Заголовок
         </label>
         <input
           className={style.input}
@@ -49,7 +49,7 @@ export const TaskForm = ({
       </div>
       <div className={style.form__input_box}>
         <label className={style.label} htmlFor="description">
-          Description
+          Описание
         </label>
         <textarea
           className={style.textarea}
