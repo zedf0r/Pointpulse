@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTasks } from "@/entities/task/api/taskApi";
 import { Task } from "@/widgets/ui/Task";
 import type { TypeTask } from "@/entities/task/model/types";
-import { useVirtualList } from "@/shared/lib/useVirtualList";
+import { useVirtualList } from "@/widgets/ui/TaskList/hooks/useVirtualList";
 
 const itemHeight = 65;
 const containerHeight = 650;
@@ -35,10 +35,7 @@ export const TaskList = () => {
         width: "100%",
       }}
     >
-      <div
-        className={style.tasks}
-        style={{ position: "relative", width: "100%", height: totalHeight }}
-      >
+      <div className={style.tasks} style={{ height: totalHeight }}>
         {visibleItems?.map((task, index) => {
           return (
             <div
