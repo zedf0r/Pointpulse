@@ -1,4 +1,5 @@
 const API_BASED = "http://localhost:3000/tasks";
+
 const headers = { "Content-Type": "application/json" };
 
 const request = async (endpoint: string, options?: RequestInit) => {
@@ -16,7 +17,8 @@ const request = async (endpoint: string, options?: RequestInit) => {
   return response.json();
 };
 
-export const fetchTasks = () => request("/");
+export const fetchTasks = (page: string) =>
+  request(`?_page=${page}&_per_page=20`);
 
 export const fetchTask = (id: string) => request(`/${id}`);
 

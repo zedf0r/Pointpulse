@@ -1,13 +1,13 @@
+import { fetchTasks } from "@/entities/task/api/taskApi";
 import type { TypeTask } from "@/entities/task/model/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const useVirtualList = ({
-  data,
   containerHeight,
   itemHeight,
   overscan = 5,
 }: {
-  data: TypeTask[];
   containerHeight: number;
   itemHeight: number;
   overscan?: number;
@@ -15,9 +15,25 @@ export const useVirtualList = ({
   const [scrollTop, setScrollTop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["tasks"],
+      queryFn: ({ pageParam = 1 }) => fetchTasks(String(pageParam)),
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.next) {
+          return null;
+        }
+        return allPages.length + 1;
+      },
+      initialPageParam: 1,
+    });
+
+  const allTasks: TypeTask[] =
+    data?.pages.flatMap((page) => page.data || page) ?? [];
+
   const sortedData = useMemo(() => {
-    return data ? [...data].sort((a, b) => a.index - b.index) : [];
-  }, [data]);
+    return allTasks ? [...allTasks].sort((a, b) => a.index - b.index) : [];
+  }, [allTasks]);
 
   const totalCount = sortedData.length;
   const totalHeight = totalCount * itemHeight;
@@ -30,13 +46,17 @@ export const useVirtualList = ({
     startIndex + visibleCount + overscan * 2,
   );
 
-  const visibleItems = sortedData.slice(startIndex, endIndex);
+  const visibleItems = sortedData.slice(0, endIndex);
 
   const onScroll = useCallback(() => {
     const scroll = containerRef.current?.scrollTop || 0;
     sessionStorage.setItem("taskListScroll", String(scroll));
     setScrollTop(scroll);
-  }, [sortedData.length]);
+
+    if (endIndex >= totalCount - 2 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [endIndex, totalCount, hasNextPage, fetchNextPage]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -60,7 +80,7 @@ export const useVirtualList = ({
   return {
     containerRef,
     visibleItems,
-    startIndex,
     totalHeight,
+    isLoading,
   };
 };

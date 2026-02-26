@@ -1,25 +1,15 @@
 import style from "./style.module.scss";
-import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "@/entities/task/api/taskApi";
 import { Task } from "@/widgets/ui/Task";
-import type { TypeTask } from "@/entities/task/model/types";
 import { useVirtualList } from "@/widgets/ui/TaskList/hooks/useVirtualList";
 
 const itemHeight = 65;
 const containerHeight = 650;
 
 export const TaskList = () => {
-  const { data, isLoading } = useQuery<TypeTask[]>({
-    queryKey: ["tasks"],
-    queryFn: fetchTasks,
+  const { visibleItems, containerRef, isLoading } = useVirtualList({
+    containerHeight,
+    itemHeight,
   });
-
-  const { visibleItems, containerRef, startIndex, totalHeight } =
-    useVirtualList({
-      data: data ? data : [],
-      containerHeight,
-      itemHeight,
-    });
 
   if (isLoading) {
     return "Загрузка";
@@ -35,14 +25,14 @@ export const TaskList = () => {
         width: "100%",
       }}
     >
-      <div className={style.tasks} style={{ height: totalHeight }}>
+      <div className={style.tasks}>
         {visibleItems?.map((task, index) => {
           return (
             <div
               key={task.id}
               style={{
                 position: "absolute",
-                top: (startIndex + index) * itemHeight,
+                top: (0 + index) * itemHeight,
                 height: itemHeight,
                 width: "100%",
               }}
