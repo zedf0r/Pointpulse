@@ -18,7 +18,7 @@ const request = async (endpoint: string, options?: RequestInit) => {
 };
 
 export const fetchTasks = (page: string) =>
-  request(`?_page=${page}&_per_page=20`);
+  request(`?_page=${page}&_per_page=20&_sort=index`);
 
 export const fetchTask = (id: string) => request(`/${id}`);
 
@@ -42,7 +42,7 @@ export const addTask = (body: {
   description: string;
   index: number;
 }) =>
-  request(`/`, {
+  request(``, {
     method: "POST",
     body: JSON.stringify(body),
   });

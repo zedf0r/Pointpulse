@@ -1,7 +1,7 @@
 import { fetchTasks } from "@/entities/task/api/taskApi";
 import type { TypeTask } from "@/entities/task/model/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useVirtualList = ({
   containerHeight,
@@ -31,11 +31,7 @@ export const useVirtualList = ({
   const allTasks: TypeTask[] =
     data?.pages.flatMap((page) => page.data || page) ?? [];
 
-  const sortedData = useMemo(() => {
-    return allTasks ? [...allTasks].sort((a, b) => a.index - b.index) : [];
-  }, [allTasks]);
-
-  const totalCount = sortedData.length;
+  const totalCount = allTasks.length;
   const totalHeight = totalCount * itemHeight;
 
   const visibleCount = Math.ceil(containerHeight / itemHeight);
@@ -46,7 +42,7 @@ export const useVirtualList = ({
     startIndex + visibleCount + overscan * 2,
   );
 
-  const visibleItems = sortedData.slice(0, endIndex);
+  const visibleItems = allTasks.slice(0, endIndex);
 
   const onScroll = useCallback(() => {
     const scroll = containerRef.current?.scrollTop || 0;
@@ -67,7 +63,7 @@ export const useVirtualList = ({
   }, [onScroll]);
 
   useEffect(() => {
-    if (!sortedData.length) return;
+    if (!allTasks.length) return;
 
     const savedScroll = sessionStorage.getItem("taskListScroll");
 
@@ -75,7 +71,7 @@ export const useVirtualList = ({
       containerRef.current.scrollTop = Number(savedScroll);
       setScrollTop(Number(savedScroll));
     }
-  }, [sortedData.length]);
+  }, [allTasks.length]);
 
   return {
     containerRef,

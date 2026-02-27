@@ -6,10 +6,12 @@ const itemHeight = 65;
 const containerHeight = 650;
 
 export const TaskList = () => {
-  const { visibleItems, containerRef, isLoading } = useVirtualList({
-    containerHeight,
-    itemHeight,
-  });
+  const { visibleItems, containerRef, isLoading, totalHeight } = useVirtualList(
+    {
+      containerHeight,
+      itemHeight,
+    },
+  );
 
   if (isLoading) {
     return "Загрузка";
@@ -25,7 +27,7 @@ export const TaskList = () => {
         width: "100%",
       }}
     >
-      <div className={style.tasks}>
+      <div className={style.tasks} style={{ height: totalHeight }}>
         {visibleItems?.map((task, index) => {
           return (
             <div
