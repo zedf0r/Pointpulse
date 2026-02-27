@@ -8,8 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "json-server": "json-server --watch db.json --port 3000 --static .",
-    "start": "concurrently \"npm run build\" \"npm run json-server\" \"npm run preview\""
+    "json-server": "json-server --watch db.json --port 3000 --static ./dist",
+    "prestart": "npm i",
+    "start": "npm run build && npm run json-server"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.20",
